@@ -14,8 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
 
+from series.api.router import router
+from series.api.views import SerieApiView
 from series.views import SerieView
 from series.views import EpisodeView
 from users.views import LoginView, LogoutView
@@ -26,4 +29,6 @@ urlpatterns = [
     path('episodes/<int:serie_id>', EpisodeView.as_view(), name='episodes'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('docs/', include_docs_urls(title='My APU Title', public=False)),
+    path('api/', include(router.urls))
 ]
